@@ -1,5 +1,6 @@
 var mountainImg, mountain;
 var gameState = "start";
+var val = 0;
 function preload() {
   mountainImg = loadImage("mountain.png");
   personImg = loadImage("icestupa.png");
@@ -75,14 +76,21 @@ function setup() {
   rope10.rotation = 0;
   rope10.visible = false;
 
-  // distance = createInput("").attribute("placeholder", "Total length of Rope ");
-  // distance.position(1100, 700);
+  distance = createInput("").attribute("placeholder", "Total length of Rope ");
+  distance.position(1100, 700);
 
-  // check = createButton("CHECK");
-  // check.position(1300, 700);
-  // check.mousePressed(win);
+  check = createButton("CHECK");
+  check.position(1300, 700);
 }
-function win() {}
+function win() {
+  val = distance.value();
+  console.log(val);
+  if (val === "100") {
+    gameState = "check";
+  } else {
+    gameState = "try";
+  }
+}
 function draw() {
   background("chocolate");
   drawSprites();
@@ -92,6 +100,7 @@ function draw() {
     World.mouseX,
     World.mouseY
   );
+  check.mousePressed(win);
   text("Source Location", 1100, 50);
   textSize(20);
   text("Press R to display rope. \nEach rope is of length 10 m", 50, 50);
@@ -100,8 +109,13 @@ function draw() {
     click(rope_clicked_times);
   }
   text("Number of Ropes Used is " + no_of_ropes, 1100, 650);
-  textSize(15);
+  textSize(45);
   fill("white");
+  if (gameState === "check") {
+    text("Awesome!", 600, 600);
+  } else if (gameState === "try") {
+    text("Try Again", 600, 600);
+  }
   // if (rope1.visible === true) {
   //   text("10", 1109, 140);
   // }
